@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "strict": true,
+    "baseUrl": "./src/",
+    "outDir": "build",
+    "allowJs": true,
+    "removeComments": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "target": "es6",
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "types": ["node"],
+    "typeRoots": ["src/api/@types", "node_modules/@types"]
+  },
+  "include": ["src/**/*"]
+}
