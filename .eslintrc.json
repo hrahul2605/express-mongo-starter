@@ -18,7 +18,8 @@
     },
     "import/resolver": {
       "node": {
-        "extensions": [".ts"]
+        "extensions": [".ts"],
+        "paths": ["src", "node_modules"]
       }
     }
   },
