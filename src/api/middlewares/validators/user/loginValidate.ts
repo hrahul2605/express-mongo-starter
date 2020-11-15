@@ -3,12 +3,10 @@ import Joi from 'joi';
 
 const schema = Joi.object({
   phone: Joi.string().length(10).required(), // TODO: Valid only for Indian phn. no.
-  email: Joi.string().email(),
-  name: Joi.string().required(),
-  password: Joi.string().required().min(8),
+  password: Joi.string().required(),
 });
 
-const registerValidate: RequestHandler = async (req, res, next) => {
+const loginValidate: RequestHandler = async (req, res, next) => {
   try {
     const { body } = req;
     await schema.validateAsync(body);
@@ -16,11 +14,11 @@ const registerValidate: RequestHandler = async (req, res, next) => {
   } catch (err) {
     res.status(400);
     res.json({
-      prettyMessage: 'Registration Credentials not valid.',
+      prettyMessage: 'Login Credentials not valid.',
       status: 400,
       success: false,
     });
   }
 };
 
-export default registerValidate;
+export default loginValidate;

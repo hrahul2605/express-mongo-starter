@@ -4,7 +4,13 @@
     "es2021": true,
     "node": true
   },
-  "extends": ["prettier", "airbnb-base"],
+  "extends": [
+    "prettier",
+    "airbnb-base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier/@typescript-eslint"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json",
@@ -18,8 +24,7 @@
     },
     "import/resolver": {
       "node": {
-        "extensions": [".ts"],
-        "paths": ["src", "node_modules"]
+        "extensions": [".ts"]
       }
     }
   },
@@ -27,9 +32,8 @@
   "rules": {
     "import/extensions": "off",
     "import/prefer-default-export": "off",
-    "object-curly-newline": "off",
-    "function-paren-newline": "off",
-    "nonblock-statement-body-position": "off",
-    "implicit-arrow-linebreak": "off"
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

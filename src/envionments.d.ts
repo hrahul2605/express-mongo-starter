@@ -4,7 +4,8 @@ declare global {
     interface ProcessEnv {
       PORT: string;
       DB_URI: string;
-      JWT_SECRET: string;
+      ACCESS_TOKEN_SECRET: string;
+      REFRESH_TOKEN_SECRET: string;
       BCRYPT_SALT_ROUNDS: string;
     }
   }

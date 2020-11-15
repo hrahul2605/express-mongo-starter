@@ -5,7 +5,10 @@ import config from '../../config';
 import UserModel from '../../models/Users';
 
 // Helpers
-import generateJwt from '../../helpers/generateJwt';
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from '../../helpers/jwtHelpers';
 
 interface RegisterParamType {
   phone: string;
@@ -15,14 +18,15 @@ interface RegisterParamType {
 }
 interface RegisterPromiseType {
   accessToken: string;
+  refreshToken: string;
   userId: string;
 }
 
 const registerUserService = async (data: RegisterParamType) => {
   try {
     const { phone, email, name, password } = data;
-    const userId: string = `DRIP${phone}USER`;
-    const status: string = 'PENDING';
+    const userId = `DRIP${phone}USER`;
+    const status = 'PENDING';
     const updatedAt: number = Date.now();
 
     // Generating Password Hash
@@ -30,8 +34,9 @@ const registerUserService = async (data: RegisterParamType) => {
       password,
       parseInt(config.BCRYPT_SALT_ROUNDS!, 10),
     );
-    // Generating access token ( JWT )
-    const accessToken = generateJwt(userId);
+    // Generating access & refresh token ( JWT )
+    const accessToken = await generateAccessToken(userId);
+    const refreshToken = await generateRefreshToken(userId);
 
     // Creating the user record ( DOCUMENT )
     const record = await new UserModel({
@@ -42,14 +47,13 @@ const registerUserService = async (data: RegisterParamType) => {
       userId,
       status,
       updatedAt,
-      accessToken,
     });
 
     // Saving the user record in db
     await record.save();
 
     return new Promise<RegisterPromiseType>((resolve) =>
-      resolve({ accessToken, userId }),
+      resolve({ accessToken, refreshToken, userId }),
     );
   } catch (err) {
     return new Promise<RegisterPromiseType>((_, reject) => reject(err));

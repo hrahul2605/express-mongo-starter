@@ -1,13 +1,23 @@
 import UserModel from '../../models/Users';
 
+interface userModelType {
+  userId: string;
+  phone: string;
+  email: string;
+  name: string;
+  password: string;
+  status: string;
+  updatedAt: number;
+}
+
 interface findUserPromiseType {
   found?: boolean;
-  user?: object;
+  user?: userModelType;
 }
 
 const findUserService = async (phone: string) => {
   try {
-    const match = await UserModel.find({ phone });
+    const match: any = await UserModel.find({ phone });
     if (match.length) {
       return new Promise<findUserPromiseType>((resolve) =>
         resolve({ found: true, user: match[0] }),

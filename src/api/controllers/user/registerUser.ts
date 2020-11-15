@@ -7,6 +7,7 @@ interface responseType {
   data?: {
     accessToken: string;
     userId: string;
+    refreshToken: string;
   };
   success: boolean;
 }
@@ -29,14 +30,17 @@ const registerUser: RequestHandler = async (req, res) => {
     }
 
     // Registering new user
-    const { accessToken, userId } = await registerUserService(req.body);
+    const { accessToken, userId, refreshToken } = await registerUserService(
+      req.body,
+    );
 
     const userCreated: responseType = {
       prettyMessage: 'User registered successfully.',
       status: 201,
       data: {
-        accessToken,
         userId,
+        accessToken,
+        refreshToken,
       },
       success: true,
     };
