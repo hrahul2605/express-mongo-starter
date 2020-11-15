@@ -6,9 +6,8 @@
 
 import { Application } from 'express';
 
-// Controllers
-import boilerPlate from './boilerPlate';
+import { User } from './routes';
 
 export default ({ expressApp }: { expressApp: Application }) => {
-  expressApp.use('/boilerPlate', boilerPlate);
+  expressApp.use('/user', User);
 };

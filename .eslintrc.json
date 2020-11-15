@@ -23,5 +23,12 @@
     }
   },
   "plugins": ["@typescript-eslint"],
-  "rules": { "import/extensions": "off" }
+  "rules": {
+    "import/extensions": "off",
+    "import/prefer-default-export": "off",
+    "object-curly-newline": "off",
+    "function-paren-newline": "off",
+    "nonblock-statement-body-position": "off",
+    "implicit-arrow-linebreak": "off"
+  }
 }
