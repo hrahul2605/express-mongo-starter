@@ -5,7 +5,7 @@ import {
 } from '../../helpers/jwtHelpers';
 
 // Services
-import findUserService from './findUserService';
+import findUserService from '../user/findUserService';
 
 // Types
 interface LoginParamType {
