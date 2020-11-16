@@ -6,7 +6,6 @@ const generateAccessToken = (userId: string) => {
     const options: jwt.SignOptions = {
       expiresIn: '15s',
       issuer: 'drip@shortcut.in',
-      audience: userId,
     };
     jwt.sign({ userId }, config.ACCESS_TOKEN_SECRET!, options, (err, token) => {
       if (err) reject(err);
@@ -18,7 +17,10 @@ const generateAccessToken = (userId: string) => {
 const verifyAccessToken = (token: string) => {
   return new Promise((resolve, reject) => {
     jwt.verify(token, config.ACCESS_TOKEN_SECRET!, (err, payload) => {
-      if (err) reject(err);
+      if (err) {
+        if (err.name === 'TokenExpiredError') resolve('expired');
+        else reject(err);
+      }
       resolve(payload);
     });
   });
@@ -29,7 +31,6 @@ const generateRefreshToken = (userId: string) => {
     const options: jwt.SignOptions = {
       expiresIn: '1d',
       issuer: 'drip@shortcut.in',
-      audience: userId,
     };
     jwt.sign(
       { userId },
@@ -46,7 +47,10 @@ const generateRefreshToken = (userId: string) => {
 const verifyRefreshToken = (token: string) => {
   return new Promise((resolve, reject) => {
     jwt.verify(token, config.REFRESH_TOKEN_SECRET!, (err, payload) => {
-      if (err) reject(err);
+      if (err) {
+        if (err.name === 'TokenExpiredError') resolve('expired');
+        else reject(err);
+      }
       resolve(payload);
     });
   });

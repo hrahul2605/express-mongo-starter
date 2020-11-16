@@ -6,15 +6,20 @@ const schema = Joi.object({
   password: Joi.string().required(),
 });
 
+const headerSchema = Joi.object({
+  'content-type': Joi.equal('application/json').required(),
+}).unknown(true);
+
 const loginValidate: RequestHandler = async (req, res, next) => {
   try {
-    const { body } = req;
+    const { body, headers } = req;
+    await headerSchema.validateAsync(headers);
     await schema.validateAsync(body);
     next();
   } catch (err) {
     res.status(400);
     res.json({
-      prettyMessage: 'Login Credentials not valid.',
+      prettyMessage: 'Bad Request',
       status: 400,
       success: false,
     });

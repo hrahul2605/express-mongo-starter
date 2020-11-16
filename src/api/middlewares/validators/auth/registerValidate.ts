@@ -8,9 +8,14 @@ const schema = Joi.object({
   password: Joi.string().required().min(8),
 });
 
+const headerSchema = Joi.object({
+  'content-type': Joi.equal('application/json').required(),
+}).unknown(true);
+
 const registerValidate: RequestHandler = async (req, res, next) => {
   try {
-    const { body } = req;
+    const { body, headers } = req;
+    await headerSchema.validateAsync(headers);
     await schema.validateAsync(body);
     next();
   } catch (err) {

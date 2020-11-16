@@ -10,6 +10,7 @@ interface responseType {
     refreshToken: string;
   };
   success: boolean;
+  message?: string;
 }
 
 const loginController: RequestHandler = async (req, res) => {
@@ -46,8 +47,8 @@ const loginController: RequestHandler = async (req, res) => {
     res.send(authorisedResponse);
   } catch (err) {
     const response: responseType = {
-      prettyMessage: 'Internal Server Error.',
-      status: 501,
+      prettyMessage: err.prettyMessage || 'Internal Server Error.',
+      status: err.status || 501,
       success: false,
     };
 

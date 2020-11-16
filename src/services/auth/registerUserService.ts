@@ -5,10 +5,7 @@ import config from '../../config';
 import UserModel from '../../models/Users';
 
 // Helpers
-import {
-  generateAccessToken,
-  generateRefreshToken,
-} from '../../helpers/jwtHelpers';
+import { redisHelpers, jwtHelpers } from '../../helpers';
 
 interface RegisterParamType {
   phone: string;
@@ -35,8 +32,8 @@ const registerUserService = async (data: RegisterParamType) => {
       parseInt(config.BCRYPT_SALT_ROUNDS!, 10),
     );
     // Generating access & refresh token ( JWT )
-    const accessToken = await generateAccessToken(userId);
-    const refreshToken = await generateRefreshToken(userId);
+    const accessToken = await jwtHelpers.generateAccessToken(userId);
+    const refreshToken = await jwtHelpers.generateRefreshToken(userId);
 
     // Creating the user record ( DOCUMENT )
     const record = await new UserModel({
@@ -51,6 +48,9 @@ const registerUserService = async (data: RegisterParamType) => {
 
     // Saving the user record in db
     await record.save();
+
+    // Saving refreshToken in redisDB
+    await redisHelpers.SET(userId, refreshToken);
 
     return new Promise<RegisterPromiseType>((resolve) =>
       resolve({ accessToken, refreshToken, userId }),

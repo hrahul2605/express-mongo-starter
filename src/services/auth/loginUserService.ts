@@ -1,8 +1,5 @@
 import bcrypt from 'bcrypt';
-import {
-  generateAccessToken,
-  generateRefreshToken,
-} from '../../helpers/jwtHelpers';
+import { redisHelpers, jwtHelpers } from '../../helpers';
 
 // Services
 import findUserService from '../user/findUserService';
@@ -39,8 +36,11 @@ const loginUserService = async (data: LoginParamType) => {
     }
 
     // Generating access & refresh token ( JWT )
-    const accessToken = await generateAccessToken(user!.userId);
-    const refreshToken = await generateRefreshToken(user!.userId);
+    const accessToken = await jwtHelpers.generateAccessToken(user!.userId);
+    const refreshToken = await jwtHelpers.generateRefreshToken(user!.userId);
+
+    // Saving refreshToken in redisDB
+    await redisHelpers.SET(user!.userId, refreshToken);
 
     return new Promise<LoginPromiseType>((resolve) =>
       resolve({
