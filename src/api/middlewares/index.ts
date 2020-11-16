@@ -1,5 +1,5 @@
-import registerValidate from './validators/user/registerValidate';
-import loginValidate from './validators/user/loginValidate';
+import registerValidate from './validators/auth/registerValidate';
+import loginValidate from './validators/auth/loginValidate';
 
 const validators = { registerValidate, loginValidate };
 

@@ -1,6 +1,11 @@
 // USER Services
-import registerUserService from './user/registerUserService';
 import findUserService from './user/findUserService';
-import loginUserService from './user/loginUserService';
 
-export { registerUserService, findUserService, loginUserService };
+// AUTH Services
+import registerUserService from './auth/registerUserService';
+import loginUserService from './auth/loginUserService';
+
+const user = { findUserService };
+const auth = { registerUserService, loginUserService };
+
+export { auth, user };

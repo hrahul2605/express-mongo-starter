@@ -1,6 +1,6 @@
-import registerUser from './user/registerUser';
-import loginUser from './user/loginUser';
+import registerController from './auth/registerController';
+import loginController from './auth/loginController';
 
-const user = { registerUser, loginUser };
+const auth = { registerController, loginController };
 
-export { user };
+export { auth };

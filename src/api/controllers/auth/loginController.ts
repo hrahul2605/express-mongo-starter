@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { loginUserService } from '../../../services';
+import { auth } from '../../../services';
 
 interface responseType {
   prettyMessage: string;
@@ -12,9 +12,9 @@ interface responseType {
   success: boolean;
 }
 
-const loginUser: RequestHandler = async (req, res) => {
+const loginController: RequestHandler = async (req, res) => {
   try {
-    const { found, authorised, data } = await loginUserService(req.body);
+    const { found, authorised, data } = await auth.loginUserService(req.body);
     if (!found) {
       const notFound: responseType = {
         prettyMessage: 'User not registered.',
@@ -56,4 +56,4 @@ const loginUser: RequestHandler = async (req, res) => {
   }
 };
 
-export default loginUser;
+export default loginController;

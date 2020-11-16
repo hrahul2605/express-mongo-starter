@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { registerUserService, findUserService } from '../../../services';
+import { auth, user } from '../../../services';
 
 interface responseType {
   prettyMessage: string;
@@ -12,10 +12,10 @@ interface responseType {
   success: boolean;
 }
 
-const registerUser: RequestHandler = async (req, res) => {
+const registerController: RequestHandler = async (req, res) => {
   try {
     // Checking if user already exists
-    const { found } = await findUserService(req.body.phone);
+    const { found } = await user.findUserService(req.body.phone);
 
     const userFound: responseType = {
       prettyMessage: 'User already registered.',
@@ -30,9 +30,11 @@ const registerUser: RequestHandler = async (req, res) => {
     }
 
     // Registering new user
-    const { accessToken, userId, refreshToken } = await registerUserService(
-      req.body,
-    );
+    const {
+      accessToken,
+      userId,
+      refreshToken,
+    } = await auth.registerUserService(req.body);
 
     const userCreated: responseType = {
       prettyMessage: 'User registered successfully.',
@@ -59,4 +61,4 @@ const registerUser: RequestHandler = async (req, res) => {
   }
 };
 
-export default registerUser;
+export default registerController;
