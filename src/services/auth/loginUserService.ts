@@ -10,7 +10,7 @@ interface LoginParamType {
   password: string;
 }
 
-interface LoginPromiseType {
+interface LoginReturnType {
   found: boolean;
   authorised?: boolean;
   data?: {
@@ -20,19 +20,17 @@ interface LoginPromiseType {
   };
 }
 
-const loginUserService = async (data: LoginParamType) => {
+const loginUserService = async (
+  data: LoginParamType,
+): Promise<LoginReturnType> => {
   try {
     const { found, user } = await findUserService(data.phone);
     if (!found) {
-      return new Promise<LoginPromiseType>((resolve) =>
-        resolve({ found: false }),
-      );
+      return { found: false };
     }
     const match = await bcrypt.compare(data.password, user!.password);
     if (!match) {
-      return new Promise<LoginPromiseType>((resolve) =>
-        resolve({ found: true, authorised: false }),
-      );
+      return { found: true, authorised: false };
     }
 
     // Generating access & refresh token ( JWT )
@@ -41,20 +39,17 @@ const loginUserService = async (data: LoginParamType) => {
 
     // Saving refreshToken in redisDB
     await redisHelpers.SET(user!.userId, refreshToken);
-
-    return new Promise<LoginPromiseType>((resolve) =>
-      resolve({
-        found: true,
-        authorised: true,
-        data: {
-          userId: user!.userId,
-          accessToken,
-          refreshToken,
-        },
-      }),
-    );
+    return {
+      found: true,
+      authorised: true,
+      data: {
+        userId: user!.userId,
+        accessToken,
+        refreshToken,
+      },
+    };
   } catch (err) {
-    return new Promise<LoginPromiseType>((_, reject) => reject(err));
+    throw new Error(err);
   }
 };
 

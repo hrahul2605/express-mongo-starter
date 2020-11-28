@@ -19,7 +19,9 @@ interface RegisterPromiseType {
   userId: string;
 }
 
-const registerUserService = async (data: RegisterParamType) => {
+const registerUserService = async (
+  data: RegisterParamType,
+): Promise<RegisterPromiseType> => {
   try {
     const { phone, email, name, password } = data;
     const userId = `DRIP${phone}USER`;
@@ -52,11 +54,9 @@ const registerUserService = async (data: RegisterParamType) => {
     // Saving refreshToken in redisDB
     await redisHelpers.SET(userId, refreshToken);
 
-    return new Promise<RegisterPromiseType>((resolve) =>
-      resolve({ accessToken, refreshToken, userId }),
-    );
+    return { accessToken, refreshToken, userId };
   } catch (err) {
-    return new Promise<RegisterPromiseType>((_, reject) => reject(err));
+    throw new Error(err);
   }
 };
 

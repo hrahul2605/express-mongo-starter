@@ -15,19 +15,15 @@ interface findUserPromiseType {
   user?: userModelType;
 }
 
-const findUserService = async (phone: string) => {
+const findUserService = async (phone: string): Promise<findUserPromiseType> => {
   try {
     const match: any = await UserModel.find({ phone });
     if (match.length) {
-      return new Promise<findUserPromiseType>((resolve) =>
-        resolve({ found: true, user: match[0] }),
-      );
+      return { found: true, user: match[0] };
     }
-    return new Promise<findUserPromiseType>((resolve) =>
-      resolve({ found: false }),
-    );
+    return { found: false };
   } catch (err) {
-    return new Promise<findUserPromiseType>((_, reject) => reject(err));
+    throw new Error(err);
   }
 };
 

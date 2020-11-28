@@ -18,23 +18,20 @@ const refreshTokenService = async ({
   accessToken,
   refreshToken,
   userId,
-}: ParamType) => {
+}: ParamType): Promise<PromiseType> => {
   try {
     await jwtHelpers.verifyAccessToken(accessToken); // expired expected
     const refreshPayload: any = await jwtHelpers.verifyRefreshToken(
       refreshToken,
     );
-    if (refreshPayload === 'expired')
-      return new Promise<PromiseType>((resolve) => resolve({ expired: true }));
+    if (refreshPayload === 'expired') return { expired: true };
 
-    if (refreshPayload.userId !== userId)
-      return new Promise<PromiseType>((resolve) => resolve({ match: false }));
+    if (refreshPayload.userId !== userId) return { match: false };
 
     //   Getting previous saved token
     const prevRefreshToken = await redisHelpers.GET(refreshPayload.userId);
 
-    if (prevRefreshToken !== refreshToken)
-      return new Promise<PromiseType>((resolve) => resolve({ match: false }));
+    if (prevRefreshToken !== refreshToken) return { match: false };
 
     // Generating new pair of tokens
     const newAccessToken = await jwtHelpers.generateAccessToken(userId);
@@ -43,14 +40,12 @@ const refreshTokenService = async ({
     // Update value in redis
     await redisHelpers.SET(userId, newRefreshToken);
 
-    return new Promise<PromiseType>((resolve) =>
-      resolve({
-        tokens: { refreshToken: newRefreshToken, accessToken: newAccessToken },
-        match: true,
-      }),
-    );
+    return {
+      tokens: { refreshToken: newRefreshToken, accessToken: newAccessToken },
+      match: true,
+    };
   } catch (err) {
-    return new Promise<PromiseType>((_, reject) => reject(err));
+    throw new Error(err);
   }
 };
 
