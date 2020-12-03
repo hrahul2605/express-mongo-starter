@@ -1,4 +1,5 @@
 import express from 'express';
+import morgan from 'morgan';
 
 import config from './config';
 import loaders from './loaders';
@@ -6,6 +7,7 @@ import initRoutes from './api';
 
 const server = async () => {
   const app = express();
+  app.use(morgan('dev'));
 
   await loaders({ expressApp: app });
   initRoutes({ expressApp: app }); // initialise all endpoints
