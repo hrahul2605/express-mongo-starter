@@ -5,7 +5,7 @@ const generateAccessToken = (userId: string) => {
   return new Promise<string>((resolve, reject) => {
     const options: jwt.SignOptions = {
       expiresIn: '15s',
-      issuer: 'drip@shortcut.in',
+      issuer: 'some@company.in',
     };
     jwt.sign({ userId }, config.ACCESS_TOKEN_SECRET!, options, (err, token) => {
       if (err) reject(err);
@@ -30,7 +30,7 @@ const generateRefreshToken = (userId: string) => {
   return new Promise<string>((resolve, reject) => {
     const options: jwt.SignOptions = {
       expiresIn: '1d',
-      issuer: 'drip@shortcut.in',
+      issuer: 'some@company.in',
     };
     jwt.sign(
       { userId },

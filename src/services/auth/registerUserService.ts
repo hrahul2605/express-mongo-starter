@@ -24,7 +24,7 @@ const registerUserService = async (
 ): Promise<RegisterPromiseType> => {
   try {
     const { phone, email, name, password } = data;
-    const userId = `DRIP${phone}USER`;
+    const userId = `COMPANY${phone}USER`;
     const status = 'PENDING';
     const updatedAt: number = Date.now();
 

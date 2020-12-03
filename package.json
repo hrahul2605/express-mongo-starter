@@ -1,7 +1,7 @@
 {
-  "name": "drip-server",
+  "name": "boilerplate-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Boilerplate Server using Node/Express/Mongo/Redis with Basic Auth",
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/index.ts",
@@ -9,13 +9,13 @@
     "lint:fix": "eslint ./src --ext .ts --fix",
     "precommit": "yarn run lint"
   },
-  "repository": "git+https://github.com/hrahul2605/drip-server.git",
+  "repository": "git+https://github.com/hrahul2605/boilerplate-server.git",
   "author": "hrahul2605",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hrahul2605/drip-server/issues"
+    "url": "https://github.com/hrahul2605/boilerplate-server/issues"
   },
-  "homepage": "https://github.com/hrahul2605/drip-server#readme",
+  "homepage": "https://github.com/hrahul2605/boilerplate-server#readme",
   "private": true,
   "dependencies": {
     "bcrypt": "^5.0.0",
