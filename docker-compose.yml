@@ -1,0 +1,52 @@
+version: '3.7'
+
+volumes:
+    redis_data:
+        driver: local
+    mongo_data:
+        driver: local
+
+services:
+    redis:
+        image: 'docker.io/bitnami/redis:6.0-debian-10'
+        environment:
+            - ALLOW_EMPTY_PASSWORD=yes
+            - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+        volumes:
+            - 'redis_data:/bitnami/redis/data'
+        expose:
+            - "6379"
+        ports: 
+            - 6379:6379
+    mongo:
+        image: 'mongo'
+        restart: always
+        volumes:
+          - mongo_data:/data/db
+          - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+        environment:
+          - MONGO_INITDB_DATABASE=admin
+          - MONGO_INITDB_ROOT_USERNAME=admin
+          - MONGO_INITDB_ROOT_PASSWORD=password
+        expose:
+          - "27017"
+        ports: 
+          - 27017:27017
+
+    server:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        environment:
+            docker: "true"
+        # assuming 5000 port in .env
+        ports:
+            - 5000:5000
+        env_file:
+            - .env
+        depends_on:
+            - redis
+            - mongo
+        links:
+            - redis
+            - mongo
