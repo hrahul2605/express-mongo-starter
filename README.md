@@ -1,6 +1,6 @@
-# **boilerplate-server**
+# **express-mongo-starter**
 
-<img src="https://socialify.git.ci/hrahul2605/boilerplate-server/image?description=1&font=Source%20Code%20Pro&forks=1&issues=1&language=1&owner=1&pulls=1&stargazers=1&theme=Dark" alt="boilerplate-server" width="640" height="320" />
+<img src="https://socialify.git.ci/hrahul2605/express-mongo-starter/image?description=1&forks=1&issues=1&language=1&owner=1&stargazers=1&theme=Dark" alt="boilerplate-server" width="640" height="320" />
 
 ## Pre-requisites
 
